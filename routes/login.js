@@ -19,7 +19,6 @@ router.get("/login", (req, res) => {
 var username;
 var password;
 
-var hashedPassword;
 
 
 
@@ -40,23 +39,15 @@ const log0 = function (req, res, next) {
     next()
 }
 
-const log1 = async (req, res, next) =>{
 
-	//hashing the password using bcrypt
+const log1 = function (req, res, next) {
+	console.log('log1')
 
-	console.log('hashing the password')
-
-	hashedPassword = await bcrypt.hash(password, 8)
-
-	next()
-}
-
-const log2 = function (req, res, next) {
-	console.log('log2')
+	let sql = 'SELECT name FROM users WHERE name =' + db.escape(username) + " OR email =" + db.escape(username);
 
     // db.query() code confirm if user exist
 
-        db.query('SELECT name FROM users WHERE name = ?', [username], async (error, response) => {
+        db.query(sql, async (error, response) => {
         // remaining code goes here
                 //for errors
         if(error){
@@ -75,8 +66,8 @@ const log2 = function (req, res, next) {
 	next()
 }
 
-const log3 = function (req, res, next) {
-	console.log('log3')
+const log2 = function (req, res, next) {
+	console.log('log2')
 
                 //verify the password
         db.query('SELECT name, password FROM users WHERE name = ?', [username], async (error, response) => {
@@ -116,9 +107,9 @@ const log3 = function (req, res, next) {
 
 // if password verified
 
-const log4 = function (req, res) {
+const log3 = function (req, res) {
 
-	console.log('log4')
+	console.log('log3')
 
 
 	//verify the password
@@ -126,7 +117,8 @@ const log4 = function (req, res) {
 
 		//for errors
 		
-		if(error){                                                                     console.log(error)
+		if(error){
+			console.log(error)
 		}                                                                                                                                             
 		// if password is not verified
 
@@ -153,7 +145,7 @@ const log4 = function (req, res) {
 }
 
 
-router.post("/login", [log0,log1,log2,log3,log4])
+router.post("/login", [log0,log1,log2,log3])
 
 // export the variable specified
 module.exports = router;

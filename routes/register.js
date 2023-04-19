@@ -214,7 +214,7 @@ console.log('reg4')
 }
 
 
-router.post("/auth/register", [reg0,reg1,reg2,reg3,reg4])
+router.post("/register", [reg0,reg1,reg2,reg3,reg4])
 
 // export the variable specified
 module.exports = router;
